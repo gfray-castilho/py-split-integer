@@ -1,4 +1,5 @@
 from app.split_integer import split_integer
+import pytest
 
 
 def test_sum_of_the_parts_should_be_equal_to_value() -> None:
@@ -18,5 +19,21 @@ def test_parts_should_be_sorted_when_they_are_not_equal() -> None:
 
 
 def test_should_add_zeros_when_value_is_less_than_number_of_parts() -> None:
-    result = split_integer(3,5 )
-    assert result == [0, 0, 1, 1, 1]
+    assert split_integer(3,5 ) == [0, 0, 1, 1, 1]
+
+@pytest.mark.parametrize("value, parts", [
+    (8, 1),
+    (6, 2),
+    (17, 4),
+    (3, 5),
+    (32, 6),
+])
+
+def test_properties_length_order_difference(value, parts):
+    result = split_integer(value, parts)
+
+    assert len(result) == parts
+
+    assert result == sorted(result)
+
+    assert max(result) - min(result) <= 1
